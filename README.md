@@ -7,5 +7,5 @@ python <dir> # to get results from input.txt\n
 python <dir> test <first_result> <second_result> # to test script
 
 #Example:
-python 1 test 11 35
+python 1 test 11 31
 ```

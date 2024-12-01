@@ -1,7 +1,11 @@
 import sys
 from collections.abc import Iterator
 
-from solution import first_part_solution, second_part_solution
+from solution import (
+    first_part_solution,
+    second_part_solution,
+    test_simple_input_data_generator,
+)
 
 
 def read_file_generator(file_name: str = "input.txt") -> Iterator[str]:
@@ -10,16 +14,10 @@ def read_file_generator(file_name: str = "input.txt") -> Iterator[str]:
             yield line
 
 
-def test_simple_input_data_generator() -> Iterator[str]:
-    input: str = """"""
-    for row in input.splitlines():
-        yield row
-
-
 USAGE_MESSAGE: str = (
     "Usage:\t python <dir> - to get results from input.txt\n"
     + "\t python <dir> test <first_result> <second_result> - to test script"
-    + "\nExample: python 1 test 11 35"
+    + "\nExample: python 1 test 11 31"
 )
 
 

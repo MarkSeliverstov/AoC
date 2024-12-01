@@ -1,5 +1,5 @@
 from collections import defaultdict
-from typing import Iterable
+from typing import Iterable, Iterator
 
 
 def first_part_solution(input: Iterable[str]) -> int:
@@ -46,3 +46,14 @@ def second_part_solution(input: Iterable[str]) -> int:
         result += item * right_frequency[item]
 
     return result
+
+
+def test_simple_input_data_generator() -> Iterator[str]:
+    input: str | None = """3   4
+4   3
+2   5
+1   3
+3   9
+3   3"""
+    for row in input.splitlines():
+        yield row
