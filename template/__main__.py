@@ -1,3 +1,4 @@
+from pathlib import Path
 import sys
 from collections.abc import Iterator
 
@@ -9,7 +10,7 @@ from solution import (
 
 
 def read_file_generator(file_name: str = "input.txt") -> Iterator[str]:
-    with open(file_name) as file:
+    with open(Path(__file__).parent / file_name) as file:
         for line in file:
             yield line
 
