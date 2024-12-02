@@ -1,5 +1,6 @@
-# AoC Solution 2024
+# Advent of Code Solution 2024
 
+- [AoC](https://adventofcode.com/)
 ## How to use?
 
 ```bash
