@@ -1,8 +1,11 @@
 from collections import defaultdict
-from typing import Iterable, Iterator
+from typing import Iterable
+
+EXPECTED_RESULT_PART1: int = 11
+EXPECTED_RESULT_PART2: int = 31
 
 
-def first_part_solution(input: Iterable[str]) -> int:
+def part1(input: Iterable[str]) -> int:
     left: list[int] = []
     right: list[int] = []
 
@@ -26,7 +29,7 @@ def first_part_solution(input: Iterable[str]) -> int:
     return result
 
 
-def second_part_solution(input: Iterable[str]) -> int:
+def part2(input: Iterable[str]) -> int:
     left: list[int] = []
     right_frequency: defaultdict[int, int] = defaultdict(int)
 
@@ -46,14 +49,3 @@ def second_part_solution(input: Iterable[str]) -> int:
         result += item * right_frequency[item]
 
     return result
-
-
-def test_simple_input_data_generator() -> Iterator[str]:
-    input: str | None = """3   4
-4   3
-2   5
-1   3
-3   9
-3   3"""
-    for row in input.splitlines():
-        yield row

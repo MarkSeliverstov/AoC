@@ -1,15 +1,12 @@
-from typing import Iterable, Iterator
+from typing import Iterable
+
+EXPECTED_RESULT_PART1: int = 0
+EXPECTED_RESULT_PART2: int = 0
 
 
-def first_part_solution(input: Iterable[str]) -> int:
+def part1(input: Iterable[str]) -> int:
     raise NotImplementedError("First part is not implemented yet")
 
 
-def second_part_solution(input: Iterable[str]) -> int:
+def part2(input: Iterable[str]) -> int:
     raise NotImplementedError("Second part is not implemented yet")
-
-
-def test_simple_input_data_generator() -> Iterator[str]:
-    input: str | None = None
-    for row in input.splitlines():
-        yield row
