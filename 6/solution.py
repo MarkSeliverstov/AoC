@@ -172,11 +172,18 @@ def part2(input_lines: Iterable[str]) -> int:
     grid.simulate()
     possible_obstacles_positions = {pos.coords for pos in grid._visited_positions}
 
-    current_time: float = time.time()
-    res = _bfs_possible_loop_count(
-        Grid.from_input(input.copy()), possible_obstacles_positions
-    )
-    print(f"Dumb BFS time: {time.time() - current_time} with {res=}")
+    """
+    It's not the best solution in terms of performance :D
+    So I tried paralleling it:
+        1. Wihout parallelization: 150s (_bfs_possible_loop_count)
+        2. With parallelization: 14s (_multiprocessing_bfs_possible_loop_count)
+    """
+
+    # current_time: float = time.time()
+    # res = _bfs_possible_loop_count(
+    #     Grid.from_input(input.copy()), possible_obstacles_positions
+    # )
+    # print(f"Dumb BFS time: {time.time() - current_time} with {res=}")
 
     current_time = time.time()
     res = _multiprocessing_bfs_possible_loop_count(
