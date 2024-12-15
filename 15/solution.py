@@ -3,8 +3,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Iterable, Literal, NamedTuple
 
-EXPECTED_RESULT_PART1: int = 908
-EXPECTED_RESULT_PART2: int = 9021
+EXPECTED_RESULT_PART1: int = 2028
+EXPECTED_RESULT_PART2: int = 1751
 
 
 DirectionType = Literal["^", "v", "<", ">"]
@@ -53,55 +53,54 @@ class Grid:
 
         return Grid(data, robot)
 
-    def step(self, frm: Coords, direction: Direction) -> None:
-        next: Coords = frm.move(direction)
-        step_cell: str = self.data[next.y][next.x]
-        if step_cell == "#":
-            raise ValueError("Can't move it")
-        if step_cell == "O":
-            self.step(next, direction)
-        else:
-            if step_cell == "[":
-                self.step(next, direction)
-                if direction in [
-                    Direction.from_string("^"),
-                    Direction.from_string("v"),
-                ]:
-                    self.step(Coords(next.x + 1, next.y), direction)
-            elif step_cell == "]":
-                self.step(next, direction)
-                if direction in [
-                    Direction.from_string("^"),
-                    Direction.from_string("v"),
-                ]:
-                    self.step(Coords(next.x - 1, next.y), direction)
+    def step(self, frm: set[Coords], direction: Direction) -> None:
+        next_coords: set[Coords] = {f.move(direction) for f in frm}
+        for next_coord in next_coords:
+            if self.data[next_coord.y][next_coord.x] == "#":
+                raise ValueError("Can't move it")
 
-        self.data[frm.y][frm.x], self.data[next.y][next.x] = (
-            self.data[next.y][next.x],
-            self.data[frm.y][frm.x],
-        )
+        if direction in [Direction.from_string("^"), Direction.from_string("v")]:
+            next_to_move: set[Coords] = set()
+            for next_coord in next_coords:
+                cell: str = self.data[next_coord.y][next_coord.x]
+                if cell == "]":
+                    next_to_move.add(Coords(next_coord.x - 1, next_coord.y))
+                    next_to_move.add(next_coord)
+                if cell == "[":
+                    next_to_move.add(Coords(next_coord.x + 1, next_coord.y))
+                    next_to_move.add(next_coord)
+            if len(next_to_move) > 0:
+                self.step(next_to_move, direction)
+
+        for next_coord in next_coords:
+            step_cell: str = self.data[next_coord.y][next_coord.x]
+            if step_cell in "O[]":
+                self.step(next_coords, direction)
+
+        for f, next_coord in zip(sorted(frm), sorted(next_coords)):
+            self.data[f.y][f.x], self.data[next_coord.y][next_coord.x] = (
+                self.data[next_coord.y][next_coord.x],
+                self.data[f.y][f.x],
+            )
 
     def print(self) -> None:
         for line in self.data:
             print("".join(line))
 
     def simulate(self, steps: list[DirectionType]) -> None:
-        self.print()
         for step in steps:
-            print(step)
             direction: Direction = Direction.from_string(step)
             try:
-                self.step(self.robot, direction)
+                self.step({self.robot}, direction)
                 self.robot = self.robot.move(direction)
             except ValueError:
                 pass
-            self.print()
 
     def count_gps(self) -> int:
         result: int = 0
         for y in range(len(self.data)):
             for x in range(len(self.data[0])):
-                if self.data[y][x] == "O":
+                if self.data[y][x] in "O[":
                     result += 100 * y + x
         return result
 
