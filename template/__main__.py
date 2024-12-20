@@ -1,4 +1,5 @@
 from pathlib import Path
+from time import time
 
 from solution import EXPECTED_RESULT_PART1, EXPECTED_RESULT_PART2, part1, part2
 
@@ -9,13 +10,15 @@ def test():
 
     result: int = part1(open(INPUT_EXAMPLE_PATH).read())
     assert result == EXPECTED_RESULT_PART1, result
-    result: int = part1(open(INPUT_PATH).read())
-    print(f"Result of part 1 is {result}")
+    now = time()
+    result = part1(open(INPUT_PATH).read())
+    print(f"[{time() - now:.3f} sec] Result of part 1 is {result}")
 
-    result: int = part2(open(INPUT_EXAMPLE_PATH).read())
+    result = part2(open(INPUT_EXAMPLE_PATH).read())
     assert result == EXPECTED_RESULT_PART2, result
-    result: int = part2(open(INPUT_PATH).read())
-    print(f"Result of part 2 is {result}")
+    now = time()
+    result = part2(open(INPUT_PATH).read())
+    print(f"[{time() - now:.3f} sec] Result of part 2 is {result}")
 
 
 if __name__ == "__main__":
