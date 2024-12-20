@@ -5,15 +5,15 @@ from dataclasses import dataclass
 from typing import NamedTuple
 
 EXPECTED_RESULT_PART1: int = 44
-EXPECTED_RESULT_PART2: int = 285
+EXPECTED_RESULT_PART2: int = 0
 
 
 class Position(NamedTuple):
     y: int
     x: int
 
-    def step(self, dy: int, dx: int, count: int = 1) -> Position:
-        return Position(y=self.y + (count * dy), x=self.x + (count * dx))
+    def step(self, dy: int, dx: int) -> Position:
+        return Position(y=self.y + dy, x=self.x + dx)
 
 
 class Cheat(NamedTuple):
@@ -83,7 +83,6 @@ class Map:
                             and Cheat(next_step, from_pos, i + j) not in already_created
                         ):
                             cheats.add(Cheat(from_pos, next_step, i + j))
-        # print(from_pos, cheats)
         return cheats
 
     def get_possible_cheats(self, max_cheat_cost: int) -> set[Cheat]:
@@ -109,7 +108,6 @@ class Map:
                 original_race_stats[cheat.from_pos] - original_race_stats[cheat.to_pos]
             )
             cheat_saves: int = diff - cheat.cost
-            print(cheat.from_pos, cheat.to_pos, diff, cheat_saves)
             cheats_stats[cheat_saves] += 1
         return sum(
             count if save_sec >= speedup_more_than else 0
@@ -122,4 +120,4 @@ def part1(input: str) -> int:
 
 
 def part2(input: str) -> int:
-    return Map.from_input(input).count_possible_cheats(50, 20)
+    return Map.from_input(input).count_possible_cheats(100, 20)
